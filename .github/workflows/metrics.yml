@@ -1,0 +1,32 @@
+name: numbers-card
+
+on:
+  schedule:
+    - cron: "23 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  numbers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate numbers card
+        env:
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: |
+          if [ -z "$METRICS_TOKEN" ]; then
+            echo "METRICS_TOKEN secret not set, skipping (card stays as committed)."
+            exit 0
+          fi
+          python3 scripts/numbers_card.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/numbers-dark.svg assets/numbers-light.svg
+          git diff --cached --quiet || { git commit -m "Update numbers card"; git push; }

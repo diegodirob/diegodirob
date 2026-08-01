@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="Diego Di Roberto, Full Stack Developer and AI Engineer">
+  <defs>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="45"/>
+    </filter>
+    <clipPath id="frame">
+      <rect width="1200" height="300" rx="16"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="300" fill="#0a0a0a"/>
+    <g filter="url(#blur)">
+      <circle cx="920" cy="70" r="140" fill="#f5edd8" opacity="0.09">
+        <animate attributeName="opacity" values="0.06;0.11;0.06" dur="11s" repeatCount="indefinite"/>
+        <animate attributeName="cx" values="920;960;920" dur="17s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1120" cy="230" r="110" fill="#dde8d5" opacity="0.06">
+        <animate attributeName="opacity" values="0.04;0.08;0.04" dur="13s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="230;200;230" dur="19s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="760" cy="180" r="90" fill="#f5edd8" opacity="0.05">
+        <animate attributeName="opacity" values="0.03;0.07;0.03" dur="9s" repeatCount="indefinite"/>
+        <animate attributeName="cx" values="760;730;760" dur="15s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <text x="1035" y="215" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="150" fill="#ffffff" opacity="0.10">d.<animate attributeName="opacity" values="0.07;0.13;0.07" dur="12s" repeatCount="indefinite"/></text>
+    <text x="80" y="112" font-family="SFMono-Regular, Consolas, 'Courier New', monospace" font-size="14" letter-spacing="5" fill="#ffffff" opacity="0.45">SOFTWARE DEVELOPER · KOMOREBI STUDIO</text>
+    <text x="76" y="182" font-family="Georgia, 'Times New Roman', serif" font-size="62" fill="#ffffff">Diego <tspan font-style="italic">Di Roberto</tspan></text>
+    <text x="80" y="232" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="23" fill="#ffffff" opacity="0.5">Beneath every product there's a system.</text>
+  </g>
+</svg>
