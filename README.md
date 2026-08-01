@@ -58,14 +58,14 @@ Systems in production, not demos. Mostly private client work; full stories on [d
 - **Code you can read**: the next developer (often future me) matters
 - **Decisions in the open**: every technical choice comes with its "why"
 
-Got a project in mind? The fastest route is a [45-minute call](https://calendly.com/diroberto-diego/45min).
+Got a project in mind? The fastest route is a [call](https://calendly.com/diroberto-diego/lets-talk).
 
 ## Elsewhere
 
 - 🌐 [diegodiroberto.com](https://diegodiroberto.com)
 - 💼 [LinkedIn](https://www.linkedin.com/in/diegodiroberto/)
 - 📸 [Instagram](https://www.instagram.com/diegodirob/)
-- 📅 [Book a 45-minute call](https://calendly.com/diroberto-diego/45min)
+- 📅 [Book a call](https://calendly.com/diroberto-diego/lets-talk)
 
 ---
 
