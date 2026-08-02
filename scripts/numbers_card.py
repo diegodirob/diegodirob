@@ -50,17 +50,7 @@ query($cursor: String) {
 }
 """
 
-CAL_QUERY = """
-query($from: DateTime!, $to: DateTime!) {
-  viewer {
-    contributionsCollection(from: $from, to: $to) {
-      contributionCalendar {
-        weeks { contributionDays { date contributionCount } }
-      }
-    }
-  }
-}
-"""
+USERNAME = "diegodirob"
 
 
 _icon_cache = {}
@@ -98,24 +88,42 @@ def collect_languages():
 
 
 def collect_days():
-    """Daily contribution counts from STATS_FROM to today (UTC)."""
+    """Daily contribution counts from STATS_FROM to today (UTC).
+
+    Read from the public contribution-calendar fragment instead of GraphQL:
+    with the "private contributions" profile toggle on it carries the full
+    counts, while fine-grained tokens undercount the GraphQL calendar.
+    """
+    import re
+
     days = {}
     today = datetime.datetime.now(datetime.timezone.utc).date()
-    start = STATS_FROM
-    while start <= today:
-        # contributionsCollection accepts at most a one-year window per call
-        end = min(datetime.date(start.year + 1, 1, 1), today + datetime.timedelta(days=1))
-        data = graphql(
-            CAL_QUERY,
-            {"from": f"{start}T00:00:00Z", "to": f"{end}T00:00:00Z"},
+    for year in range(STATS_FROM.year, today.year + 1):
+        url = (
+            f"https://github.com/users/{USERNAME}/contributions"
+            f"?from={year}-01-01&to={year}-12-31"
         )
-        weeks = data["viewer"]["contributionsCollection"]["contributionCalendar"]["weeks"]
-        for week in weeks:
-            for day in week["contributionDays"]:
-                date = datetime.date.fromisoformat(day["date"])
-                if STATS_FROM <= date <= today:
-                    days[date] = day["contributionCount"]
-        start = end
+        req = urllib.request.Request(url, headers={"User-Agent": "numbers-card"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            html = resp.read().decode()
+        cells = dict(
+            re.findall(r'data-date="(\d{4}-\d{2}-\d{2})"[^>]*\bid="([^"]+)"', html)
+        )
+        tips = dict(
+            re.findall(
+                r'<tool-tip[^>]*\bfor="([^"]+)"[^>]*>\s*(\d+|No) contribution', html
+            )
+        )
+        for date_str, cell_id in cells.items():
+            date = datetime.date.fromisoformat(date_str)
+            if STATS_FROM <= date <= today and cell_id in tips:
+                count = tips[cell_id]
+                days[date] = 0 if count == "No" else int(count)
+    expected = (today - STATS_FROM).days + 1
+    if len(days) < expected * 0.9:
+        raise RuntimeError(
+            f"calendar parse looks broken: {len(days)} days found, {expected} expected"
+        )
     return days, today
 
 
